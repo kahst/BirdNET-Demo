@@ -37,3 +37,7 @@ Pin 15 GPIO.22: European Pied Flycatcher (Ficedula hypoleuca)
 Pin 18 GPIO.23: Random species (Goldcrest, Yellowhammer, Eurasian Blue Tit, Common Chiffchaff, European Goldfinch)
 
 ```
+
+All sounds provided by Xeno-canto (www.xeno-canto.org).
+
+Recordists: Marc Andreso, Lauri Hallikaine, Lars Edeniu, Jordi Calve, Veljo Runne, Elisa A. Ryber, Peter Boesma, Jorge Leitão, Karl-Birger Stran, Hans Mathev
