@@ -34,4 +34,6 @@ Pin 12 GPIO.18: Common House Martin (Delichon urbicum)
 Pin 13 GPIO.27: Common Linnet (Linaria cannabina)
 Pin 15 GPIO.22: European Pied Flycatcher (Ficedula hypoleuca)
 
+Pin 18 GPIO.23: Random species (Goldcrest, Yellowhammer, Eurasian Blue Tit, Common Chiffchaff, European Goldfinch)
+
 ```

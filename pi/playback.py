@@ -10,7 +10,7 @@ SOUNDS = {11: {'audio': ['CS_01.wav', 'CS_02.wav'], 'last_action': 0},
           12: {'audio': ['CHM_01.wav', 'CHM_02.wav'], 'last_action': 0},
           13: {'audio': ['CL_01.wav', 'CL_02.wav'], 'last_action': 0},
           15: {'audio': ['EPF_01.wav', 'EPF_02.wav'], 'last_action': 0},
-          16: {'audio': [], 'last_action': 0},
+          16: {'audio': ['CCC_01.wav', 'EBT_01.wav', 'EGF_01.wav', 'GC_01.wav', 'YH_01.wav'], 'last_action': 0},
           18: {'audio': [], 'last_action': 0},
           22: {'audio': [], 'last_action': 0}
         }
