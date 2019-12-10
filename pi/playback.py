@@ -6,13 +6,13 @@ import threading
 import RPi.GPIO as GPIO
 
 # Define sounds
-SOUNDS = {11: {'audio': ['11.wav'], 'last_action': 0},
-          12: {'audio': ['12.wav'], 'last_action': 0},
-          13: {'audio': ['13.wav'], 'last_action': 0},
-          15: {'audio': ['15.wav'], 'last_action': 0},
-          16: {'audio': ['16.wav'], 'last_action': 0},
-          18: {'audio': ['18.wav'], 'last_action': 0},
-          22: {'audio': ['22.wav'], 'last_action': 0}
+SOUNDS = {11: {'audio': ['CS_01.wav', 'CS_02.wav'], 'last_action': 0},
+          12: {'audio': ['CHM_01.wav', 'CHM_02.wav'], 'last_action': 0},
+          13: {'audio': ['CL_01.wav', 'CL_02.wav'], 'last_action': 0},
+          15: {'audio': ['EPF_01.wav', 'EPF_02.wav'], 'last_action': 0},
+          16: {'audio': [], 'last_action': 0},
+          18: {'audio': [], 'last_action': 0},
+          22: {'audio': [], 'last_action': 0}
         }
 
 # Ignore warning for now
@@ -44,7 +44,7 @@ def button_callback(channel):
     now = time.time()
 
     # Wait for timeout
-    if now - SOUNDS[channel]['last_action'] > 2:
+    if now - SOUNDS[channel]['last_action'] > 1:
         
         # Save time of last button press
         SOUNDS[channel]['last_action'] = now
