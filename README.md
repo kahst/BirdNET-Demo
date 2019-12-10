@@ -5,11 +5,10 @@ Source code for BMBF InnoTruck demo of BirdNET.
 
 ## Setup Raspberry Pi
 
-Clone the repository with and change the directory:
+Clone the repository:
 
 ```
 git clone https://github.com/kahst/BirdNET-Demo.git
-cd BirdNET-Demo
 ```
 
 Install dependencies (you'll need to install Python3 and pip3 if not already provided with the OS image):
@@ -18,9 +17,10 @@ Install dependencies (you'll need to install Python3 and pip3 if not already pro
 sudo pip3 install -r requirements.txt
 ```
 
-Start playback script after startup by adding this line to /etc/rc.local:
+Start playback script after startup by adding this line to <i>/etc/rc.local</i> (before exit 0):
 
 ```
-sudo nano /etc/rc.local
-/usr/bin/python3 /home/pi/BirdNET-Demo/pi/playback.py &
+cd /home/pi/BirdNET-Demo && python3 pi/playback.py &
 ```
+
+Change the path to <i>BirdNET-Demo</i> accordingly if you used a different location.
