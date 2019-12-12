@@ -40,6 +40,8 @@ Pin 18 GPIO.23: Random species (Goldcrest, Yellowhammer, Eurasian Blue Tit, Comm
 
 All sounds provided by Xeno-canto (www.xeno-canto.org).
 
+![Xeno-canto](img/xc.png)
+
 Recordists: Marc Andreso, Lauri Hallikaine, Lars Edeniu, Jordi Calve, Veljo Runne, Elisa A. Ryber, Peter Boesma, Jorge Leitão, Karl-Birger Stran, Hans Mathev
 
 ## Setup Intel NUC (Ubuntu 18.04)
