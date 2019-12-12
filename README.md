@@ -49,7 +49,7 @@ The script uses the following GPIO pins to play sounds:
 ```
 
 Pin 11 GPIO.17: Common Starling (Sturnus vulgaris)
-Pin 12 GPIO.18: Common House Martin (Delichon urbicum)
+Pin 12 GPIO.18: Common House-Martin (Delichon urbicum)
 Pin 13 GPIO.27: Common Linnet (Linaria cannabina)
 Pin 15 GPIO.22: European Pied Flycatcher (Ficedula hypoleuca)
 
@@ -94,7 +94,13 @@ sudo pip3 install pyaudio bottle
 
 ## Start demo manually
 
-Launch streaming server:
+Open terminal window and launch analyzer:
+
+```
+python3 analyzer.py
+```
+
+Open another terminal window or tab (Ctrl-Shift-T) and launch streaming server:
 
 ```
 python3 server.py
