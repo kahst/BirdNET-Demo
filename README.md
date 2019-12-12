@@ -5,6 +5,23 @@ Source code for BMBF InnoTruck demo of BirdNET.
 
 ![Demo scribble](img/inno_demo.png)
 
+Author: Stefan Kahl
+
+Contact: stefan.kahl@cs.tu-chemnitz.de
+
+Website: https://birdnet.cornell.edu/
+
+Please cite as (PDF coming soon):
+
+```
+@phdthesis{kahl2019identifying,
+  title={{Identifying Birds by Sound: Large-scale Acoustic Event Recognition for Avian Activity Monitoring}},
+  author={Kahl, Stefan},
+  year={2019},
+  school={Chemnitz University of Technology}
+}
+```
+
 ## Setup Raspberry Pi (Raspian Buster)
 
 Clone the repository:
@@ -71,7 +88,7 @@ sudo pip3 install tensorflow
 Install other dependencies:
 
 ```
-sudo apt-get install portaudio19-dev python-pyaudio
+sudo apt-get install portaudio19-dev python3-pyaudio python3-numpy python3-scipy
 sudo pip3 install pyaudio bottle
 ```
 
