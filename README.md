@@ -3,6 +3,8 @@ Source code for BMBF InnoTruck demo of BirdNET.
 
 <b>This repo is currently under development.</b>
 
+![Demo scribble](img/inno_demo.png)
+
 ## Setup Raspberry Pi (Raspian Buster)
 
 Clone the repository:
