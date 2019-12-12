@@ -1,3 +1,4 @@
+import os
 import time
 import operator
 from threading import Thread
@@ -7,18 +8,13 @@ import pyaudio
 
 from tensorflow import lite as tflite
 
-from save_detections import save_detections
-from save_audio import save_audio, save_audio_from_detection
-
 from config import config as cfg
-from metadata import grid
 from utils import audio
 from utils import image
 from utils import log
 
 DET = {}
 FRAMES = np.array([], dtype='float32')
-RAW_AUDIO = np.array([], dtype='float32')
 INTERPRETER = None
 INPUT_LAYER_INDEX = -1
 OUTPUT_LAYER_INDEX = -1
@@ -46,7 +42,6 @@ def openStream():
 def record():
 
     global FRAMES
-    global RAW_AUDIO
 
     # Open stream
     stream = openStream()
@@ -59,18 +54,15 @@ def record():
             data = stream.read(cfg['SAMPLE_RATE'] // 2)
             data = np.fromstring(data, 'float32');
             FRAMES = np.concatenate((FRAMES, data))
-            RAW_AUDIO = np.concatenate((RAW_AUDIO, data))
 
             # Truncate frame count
             FRAMES = FRAMES[-int(cfg['SAMPLE_RATE'] * cfg['SPEC_LENGTH']):]
-            RAW_AUDIO = RAW_AUDIO[-int(cfg['SAMPLE_RATE'] * cfg['RAW_AUDIO_LENGTH']):]
 
         except KeyboardInterrupt:
             cfg['KILL_ALL'] = True
             break
         except:
             FRAMES = np.array([], dtype='float32')
-            RAW_AUDIO = np.array([], dtype='float32')
             stream = openStream()
             continue
 
@@ -109,35 +101,21 @@ def loadModel(model_file, config_file):
     log.p(('INPUT LAYER INDEX:', INPUT_LAYER_INDEX))
     log.p(('OUTPUT LAYER INDEX:', OUTPUT_LAYER_INDEX))
 
-    return interpreter
-
-def loadGridData():
-
-    # Load eBird data
-    grid.load()
-    
-    # Set species white list
-    getSpeciesList()        
+    return interpreter    
 
 def getSpeciesList():
 
-    # Get current week
-    week = grid.getWeek()
-
-    # Determine species lists (only year round is supported)
-    if cfg['USE_EBIRD_CHECKLIST']:
-        cfg['WHITE_LIST'], cfg['BLACK_LIST'] = grid.getSpeciesLists(cfg['DEPLOYMENT_LOCATION'][0], cfg['DEPLOYMENT_LOCATION'][1], week, cfg['EBIRD_FREQ_THRESHOLD'])
-    else:
-        cfg['WHITE_LIST'] = cfg['CLASSES']
-
-    #for s in sorted(cfg['WHITE_LIST']):
-    #    log.p(s)
-
-    log.p(('GPS LOCATION:', cfg['DEPLOYMENT_LOCATION']))
-    log.p(('SPECIES:', len(cfg['WHITE_LIST'])), new_line=True)    
-
-    # Add human to white list
-    cfg['WHITE_LIST'].append('Human_Human')
+    # Add selected species to white list
+    cfg['WHITE_LIST'] = ['Sturnus vulgaris_European Starling',
+                         'Delichon urbicum_Common House-Martin',
+                         'Linaria cannabina_Eurasian Linnet',
+                         'Ficedula hypoleuca_European Pied Flycatcher',
+                         'Regulus regulus_Goldcrest',
+                         'Emberiza citrinella_Yellowhammer',
+                         'Cyanistes caeruleus_Eurasian Blue Tit',
+                         'Phylloscopus collybita_Common Chiffchaff',
+                         'Carduelis carduelis_European Goldfinch'
+                        ]
 
 def getInput(sig):
 
@@ -159,7 +137,7 @@ def getInput(sig):
 
         # DEBUG: Save spec?
         if cfg['DEBUG_MODE']:
-            image.saveSpec(spec, 'log/spec.jpg')
+            image.saveSpec(spec, os.path.join(cfg['LOG_DIR'], 'spec.jpg'))
 
         # Prepare as input
         sample = image.prepare(spec)
@@ -232,17 +210,11 @@ def analyzeStream(interpreter):
     d = []
     for entry in p:
 
-        # Avoid human detections if confidence > 3%
-        if entry[0] in ['Human_Human'] and entry[1] >= 0.03:
-            d = []
-            cfg['LAST_HUMAN_DETECTION'] = time.time()
-            break
-
         # Store detections with confidence above threshold
-        elif entry[1] >= cfg['MIN_CONFIDENCE'] and p.index(entry) < 1:            
+        if entry[1] >= cfg['MIN_CONFIDENCE'] and p.index(entry) < 1:            
 
             # Save detection if it is a bird
-            d.append({'species': grid.getSpeciesCode(entry[0]), 'score': int(entry[1] * 100) / 100.0})
+            d.append({'species': entry[0], 'score': int(entry[1] * 100) / 100.0})
 
     return {'detections': d, 
             'audio': np.array(sig * 32767, dtype='int16'), 
@@ -260,82 +232,13 @@ def save(p):
         log.p((detection['species'], detection['score']), new_line=False)
     log.p('')
 
-    # Count and validate detections
-    validated_detections = validateAndCount(p)
-
-    # Send to save_detections.py
-    for d in validated_detections:
-        save_detections(d)
-
-        if cfg['DEBUG_MODE']:
-            save_audio_from_detection(d)
-
-def clearDetection():
-
-    return {'score': 0, 'timestamp': 0, 'time_for_prediction': 0, 'audio': [], 'count': 0, 'cooldown': cfg['DETECTION_COOLDOWN']}
-
-def validateAndCount(p):
-
-    global DET
-
-    # Add current predictions and count
-    for d in p['detections']:
-
-        # Allocate dict
-        if not d['species'] in DET:
-            DET[d['species']] = clearDetection()
-
-        # New best score?
-        if d['score'] > DET[d['species']]['score']:
-
-            # Store detection data
-            DET[d['species']]['score'] = d['score']
-            DET[d['species']]['timestamp'] = p['timestamp']
-            DET[d['species']]['time_for_prediction'] = p['time_for_prediction']
-            DET[d['species']]['audio'] = p['audio']
-
-        # Count
-        DET[d['species']]['count'] += 1
-
-    # Reduce cooldowns and validate count
-    p, r = [], []
-    for species in DET:
-        DET[species]['cooldown'] -= 1.0
-        if DET[species]['cooldown'] < 0.0:
-            if DET[species]['count'] >= cfg['MIN_DETECTION_COUNT'] and DET[species]['score'] > 0.15:
-                p.append({'detections': [{'score': DET[species]['score'], 'species': species}],
-                          'timestamp': DET[species]['timestamp'],
-                          'time_for_prediction': DET[species]['time_for_prediction'],
-                          'audio': DET[species]['audio']})
-                log.p(('>>>  SAVING:', species, '  <<<'))
-            r.append(species)
-
-    # Remove species with expired cooldown
-    for species in r:
-        del DET[species]
-
-    return p
-
 def run():
-
-    # Parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--lat', type=float, default=-1, help='Recording location latitude. Set -1 to ignore.')
-    parser.add_argument('--lon', type=float, default=-1, help='Recording location longitude. Set -1 to ignore.')
-
-    args = parser.parse_args()
-
-    if not args.lat == -1 and not args.lon == -1:
-        cfg['FORCE_GPS'](args.lat, args.lon)
 
     # Load model
     interpreter = loadModel(cfg['MODEL_PATH'], cfg['CONFIG_PATH'])
 
-    # Update GPS location if possible
-    cfg['UPDATE_GPS']()
-
-    # Load eBird grid data
-    loadGridData()
+    # Load species list
+    getSpeciesList()
 
     # Start recording
     log.p(('STARTING RECORDING WORKER'))
@@ -347,15 +250,6 @@ def run():
     while not cfg['KILL_ALL']:
 
         try:
-
-            # Save raw audio?
-            if time.time() - cfg['LAST_RAW_AUDIO_SAVE'] > cfg['RAW_AUDIO_SAVE_INTERVAL'] and len(RAW_AUDIO) >= cfg['SAMPLE_RATE'] * cfg['RAW_AUDIO_LENGTH'] and time.time() - cfg['LAST_HUMAN_DETECTION'] > cfg['RAW_AUDIO_LENGTH']:
-                log.p(('>>>  SAVING RAW AUDIO  <<<'))
-                save_audio(RAW_AUDIO, prefix='raw_')
-                cfg['LAST_RAW_AUDIO_SAVE'] = time.time()
-
-                # We also want to update the species list occasionally                
-                getSpeciesList()
 
             # Make prediction
             p = analyzeStream(interpreter)
