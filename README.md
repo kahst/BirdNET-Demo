@@ -3,7 +3,7 @@ Source code for BMBF InnoTruck demo of BirdNET.
 
 <b>This repo is currently under development.</b>
 
-## Setup Raspberry Pi
+## Setup Raspberry Pi (Raspian Buster)
 
 Clone the repository:
 
@@ -41,3 +41,46 @@ Pin 18 GPIO.23: Random species (Goldcrest, Yellowhammer, Eurasian Blue Tit, Comm
 All sounds provided by Xeno-canto (www.xeno-canto.org).
 
 Recordists: Marc Andreso, Lauri Hallikaine, Lars Edeniu, Jordi Calve, Veljo Runne, Elisa A. Ryber, Peter Boesma, Jorge Leitão, Karl-Birger Stran, Hans Mathev
+
+## Setup Intel NUC (Ubuntu 18.04)
+
+Clone the repository:
+
+```
+git clone https://github.com/kahst/BirdNET-Demo.git
+```
+
+Install Python3 and Pip3:
+
+```
+sudo apt update
+sudo apt install python3-dev python3-pip
+sudo pip3 install --upgrade pip
+```
+
+Install TensorFlow:
+
+```
+sudo pip3 install tensorflow
+```
+
+Install other dependencies:
+
+```
+sudo apt-get install portaudio19-dev python-pyaudio
+sudo pip3 install pyaudio bottle
+```
+
+## Start demo manually
+
+Launch streaming server:
+
+```
+python3 server.py
+```
+
+Open browser and navigate to the demo website to view audio and analysis data:
+
+```
+http://localhost:8080
+```
