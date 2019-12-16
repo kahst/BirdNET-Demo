@@ -1,1 +1,43 @@
-Hello world
+<!doctype html>
+<html lang="de">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+
+    <title>BirdNET Demo</title>
+</head>
+
+<body>
+
+    <!-- Title bar -->
+    <div class="container-fluid bg-dark text-white">
+        <div class="row p-2">
+            <div class="col">
+                <h5>BirdNET</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->    
+    <div class="container-fluid mt-2" id="content">
+
+        <!-- Spectrogramm -->
+        <canvas id='spec'></canvas>
+
+        <!-- Audio player -->
+        <audio controls id='player' preload='none' crossorigin='anonymous' id='audio_source_source' src='http://innonuc.informatik.tu-chemnitz.de:8080/stream'></audio>
+        
+    </div>
+
+    <!-- Additional JavaScript -->
+    <script src="static/js/jquery-3.4.1.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/stream.js"></script>
+
+    </body>
+</html>

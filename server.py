@@ -7,6 +7,8 @@ from bottle import route, run, request, static_file, response
 
 import pyaudio
 
+from utils import log
+
 ############################### URL ##################################
 
 # STATIC PATH REQUESTS
@@ -39,22 +41,27 @@ def stream():
     # Calculate datasize
     datasize = (CHUNK_SIZE * 1 * 16) // 8
 
-    # Create wav header
+    # Create wav header Python2
     h = 'RIFF'.encode('ascii')
     h += to_bytes((datasize + 36), 4,'little')
     h += 'WAVE'.encode('ascii')
+
+    # Create wav header Python3
+    #h = bytes("RIFF ",'ascii')  
+    #h += (datasize + 36).to_bytes(4,'little') 
+    #h += bytes("WAVE ",'ascii') 
 
     # Create response header
     response.headers['Content-Type'] = 'audio/x-wav'
     response.headers['Cache-Control'] = 'no-cache'
     response.headers['Pragma'] = 'no-cache'
-    response.headers['Connection'] = 'close'
+    #response.headers['Connection'] = 'close'
 
     # Read from stream
     loops = 0
     while True:
         data = stream.read(CHUNK_SIZE)
-        ch = chunkHeader(SAMPLE_RATE, 16, 1, datasize)
+        ch = chunkHeader2(SAMPLE_RATE, 16, 1, datasize)
         if loops == 0:
             r = h + ch + data
             loops = 1
@@ -66,34 +73,29 @@ def stream():
 
 def chunkHeader(sampleRate, bitsPerSample, channels, datasize):   
 
-    #o += bytes("fmt ",'ascii')                                              # (4byte) Format Chunk Marker
+    o = bytes("fmt ",'ascii')                                              # (4byte) Format Chunk Marker    
+    o += (16).to_bytes(4,'little')                                          # (4byte) Length of above format data
+    o += (1).to_bytes(2,'little')                                           # (2byte) Format type (1 - PCM)
+    o += (channels).to_bytes(2,'little')                                    # (2byte)
+    o += (sampleRate).to_bytes(4,'little')                                  # (4byte)
+    o += (sampleRate * channels * bitsPerSample // 8).to_bytes(4,'little')  # (4byte)
+    o += (channels * bitsPerSample // 8).to_bytes(2,'little')               # (2byte)
+    o += (bitsPerSample).to_bytes(2,'little')                               # (2byte)
+    o += bytes("data",'ascii')                                              # (4byte) Data Chunk Marker
+    o += (datasize).to_bytes(4,'little')                                    # (4byte) Data size in bytes
+
+    return o   
+
+def chunkHeader2(sampleRate, bitsPerSample, channels, datasize):   
+
     o = 'fmt '.encode('ascii')
-    
-    #o += (16).to_bytes(4,'little')                                          # (4byte) Length of above format data
     o += to_bytes(16, 4, 'little')
-
-    #o += (1).to_bytes(2,'little')                                           # (2byte) Format type (1 - PCM)
     o += to_bytes(1, 2, 'little')
-
-    #o += (channels).to_bytes(2,'little')                                    # (2byte)
     o += to_bytes(channels, 2, 'little')
-
-    #o += (sampleRate).to_bytes(4,'little')                                  # (4byte)
-    o += to_bytes(sampleRate, 4, 'little')
-
-    #o += (sampleRate * channels * bitsPerSample // 8).to_bytes(4,'little')  # (4byte)
     o += to_bytes(sampleRate * channels * bitsPerSample // 8, 4, 'little')
-
-    #o += (channels * bitsPerSample // 8).to_bytes(2,'little')               # (2byte)
     o += to_bytes(channels * bitsPerSample // 8, 2, 'little')
-
-    #o += (bitsPerSample).to_bytes(2,'little')                               # (2byte)
     o += to_bytes(bitsPerSample, 2, 'little')
-
-    #o += bytes("data",'ascii')                                              # (4byte) Data Chunk Marker
     o += 'data'.encode('ascii')
-
-    #o += (datasize).to_bytes(4,'little')                                    # (4byte) Data size in bytes
     o += to_bytes(datasize, 4, 'little')
 
     return o
@@ -137,14 +139,14 @@ def execute(json_data):
     ip = str(json_data['ip'])
 
     # Status
-    print(ip, '|', 'action =', action)
+    log.p((ip, '|', 'action =', action), discard=True)
 
     ##########  TEST NEURAL NET  #############
     try:
 
-        if action == 'analysis':
+        if action == 'mic':
 
-            with open('stream_analysis.json', 'r') as jfile:
+            with open('mic_analysis.json', 'r') as jfile:
                 data = json.load(jfile)
           
     except:
@@ -156,6 +158,7 @@ def execute(json_data):
 if __name__ == '__main__':
 
     # RUN SERVER
-    print('STREAM SERVER UP AND RUNNING!')
-    run(host='localhost', port=8080)
+    log.p('STREAM SERVER UP AND RUNNING!')
+    #run(host='localhost', port=8080, server='paste')
+    run(host='innonuc.informatik.tu-chemnitz.de', port=8080, server='paste')
 
