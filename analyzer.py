@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import operator
 from threading import Thread
 
@@ -231,6 +232,18 @@ def save(p):
     for detection in p['detections']:
         log.p((detection['species'], detection['score']), new_line=False)
     log.p('')
+
+    # Save JSON response data
+    data = {'prediction': {'0':{}}, 'time': p['time_for_prediction']}
+    with open('stream_analysis.json', 'w') as jfile:
+
+        for i in range(len(p['detections'])):
+            label = p['detections'][i]['species']
+            data['prediction']['0'][str(i)] = {'score': str(p['detections'][i]['score']), 'species': label}
+            if i > 25:
+                break
+
+        json.dump(data, jfile)
 
 def run():
 

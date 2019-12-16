@@ -145,9 +145,9 @@ def execute(json_data):
     ##########  TEST NEURAL NET  #############
     try:
 
-        if action == 'mic':
+        if action == 'analysis':
 
-            with open('mic_analysis.json', 'r') as jfile:
+            with open('stream_analysis.json', 'r') as jfile:
                 data = json.load(jfile)
           
     except:
