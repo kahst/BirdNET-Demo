@@ -105,6 +105,12 @@ sudo apt install portaudio19-dev python-pyaudio
 sudo pip install bottle paste pyaudio
 ```
 
+Install Chromium Browser:
+
+```
+sudo apt install chromium-browser
+```
+
 ## Start demo manually
 
 Open terminal window and launch analyzer in Python 3:
@@ -119,9 +125,9 @@ Open another terminal window or tab (Ctrl-Shift-T) and launch streaming server i
 python server.py
 ```
 
-Open browser and navigate to the demo website to view audio and analysis data:
+Launch Chromium browser in kiosk mode with auto play enabled and navigate to the demo website to view audio and analysis data:
 
 ```
-http://localhost:8080
+chromium-browser --noerrdialogs --start-fullscreen --start-maximized --disable-notifications --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080 
 ```
 
