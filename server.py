@@ -55,7 +55,7 @@ def stream():
     response.headers['Content-Type'] = 'audio/x-wav'
     response.headers['Cache-Control'] = 'no-cache'
     response.headers['Pragma'] = 'no-cache'
-    #response.headers['Connection'] = 'close'
+    response.headers['Connection'] = 'close'
 
     # Read from stream
     loops = 0
@@ -92,6 +92,7 @@ def chunkHeader2(sampleRate, bitsPerSample, channels, datasize):
     o += to_bytes(16, 4, 'little')
     o += to_bytes(1, 2, 'little')
     o += to_bytes(channels, 2, 'little')
+    o += to_bytes(sampleRate, 4, 'little')
     o += to_bytes(sampleRate * channels * bitsPerSample // 8, 4, 'little')
     o += to_bytes(channels * bitsPerSample // 8, 2, 'little')
     o += to_bytes(bitsPerSample, 2, 'little')
