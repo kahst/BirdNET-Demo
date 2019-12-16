@@ -71,7 +71,7 @@ Clone the repository:
 git clone https://github.com/kahst/BirdNET-Demo.git
 ```
 
-Install Python3 and Pip3:
+Install Python 3 and pip:
 
 ```
 sudo apt update
@@ -85,25 +85,38 @@ Install TensorFlow:
 sudo pip3 install tensorflow
 ```
 
-Install other dependencies:
+Install other Python 3 dependencies:
 
 ```
-sudo apt-get install portaudio19-dev python3-pyaudio python3-numpy python3-scipy
-sudo pip3 install pyaudio bottle
+sudo apt-get install python3-numpy python3-scipy
+```
+
+Install Python 2.7 and pip:
+
+```
+sudo apt install python2.7 python-pip
+sudo pip install --upgrade pip
+```
+
+Install other Python 2.7 dependencies:
+
+```
+sudo apt install portaudio19-dev python-pyaudio
+sudo pip install bottle paste pyaudio
 ```
 
 ## Start demo manually
 
-Open terminal window and launch analyzer:
+Open terminal window and launch analyzer in Python 3:
 
 ```
 python3 analyzer.py
 ```
 
-Open another terminal window or tab (Ctrl-Shift-T) and launch streaming server:
+Open another terminal window or tab (Ctrl-Shift-T) and launch streaming server in Python 2:
 
 ```
-python3 server.py
+python server.py
 ```
 
 Open browser and navigate to the demo website to view audio and analysis data:
@@ -111,3 +124,4 @@ Open browser and navigate to the demo website to view audio and analysis data:
 ```
 http://localhost:8080
 ```
+
