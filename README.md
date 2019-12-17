@@ -130,7 +130,9 @@ X-GNOME-Autostart-enabled=true
 Name=BirdNET Startup Script
 ```
 
-Save the contents and close the editor. The startup script in this repository needs to be executable, we can change that with:
+Save the contents and close the editor. Both, this entry and the startup.sh, assume that the demo resides in <i>/home/birdnet/Birdnet-Demo</i>. If this is not the case, make sure to change both files accordingly. 
+
+The startup script in this repository needs to be executable, we can change that with:
 
 ```
 sudo chmod +x startup.sh 
