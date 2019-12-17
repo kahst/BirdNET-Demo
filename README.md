@@ -111,7 +111,9 @@ Install Chromium Browser:
 sudo apt install chromium-browser
 ```
 
-Add the startup script from this repository to the desktop autostart by creating a custom autostart entry with:
+## Start demo automatically
+
+To start the demo after reboot, we need to add the startup script from this repository to the desktop autostart by creating a custom autostart entry with:
 
 ```
 cd ~/.config/autostart/
