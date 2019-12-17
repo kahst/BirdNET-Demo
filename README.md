@@ -135,6 +135,7 @@ Save the contents and close the editor. Both, this entry and the startup.sh, ass
 The startup script in this repository needs to be executable, we can change that with:
 
 ```
+cd /home/birdnet/BirdNET-Demo
 sudo chmod +x startup.sh 
 ```
 
