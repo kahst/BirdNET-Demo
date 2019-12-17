@@ -111,6 +111,55 @@ Install Chromium Browser:
 sudo apt install chromium-browser
 ```
 
+Add the startup script from this repository to the desktop autostart by creating a custom autostart entry with:
+
+```
+cd ~/.config/autostart/
+sudo nano birdnet-startup.desktop
+```
+
+Add the following content the startup file:
+
+```
+[Desktop Entry]
+Type=Application
+Exec=gnome-terminal --command "/home/birdnet/BirdNET-Demo/startup.sh"
+X-GNOME-Autostart-enabled=true
+Name=BirdNET Startup Script
+```
+
+Save the contents and close the editor. The startup script in this repository needs to be executable, we can change that with:
+
+```
+sudo chmod +x startup.sh 
+```
+
+Additionally, we need to automatically log in on startup. We can achieve that by altering <i>custom.cponf<i> with:
+
+```
+sudo nano /etc/gdm3/custom.conf
+```
+
+We need to change 
+
+```
+# Enabling automatic login
+#  AutomaticLoginEnable = true
+#  AutomaticLogin = user1
+```
+
+to
+
+```
+# Enabling automatic login
+  AutomaticLoginEnable = true
+  AutomaticLogin = yourusername
+```
+
+Make sure to enter the correct username instead of <i>yourusername</i>.
+
+After reboot, Ubuntu should launch the demo automatically.
+
 ## Start demo manually
 
 Open terminal window and launch analyzer in Python 3:
@@ -128,6 +177,6 @@ python server.py
 Launch Chromium browser in kiosk mode with auto play enabled and navigate to the demo website to view audio and analysis data:
 
 ```
-chromium-browser --noerrdialogs --start-fullscreen --start-maximized --disable-notifications --disable-infobars --kiosk --autoplay-policy=no-user-gesture-required http://localhost:8080 
+chromium-browser --kiosk --autoplay-policy=no-user-gesture-required --incognito --app=http://localhost:8080
 ```
 

@@ -160,6 +160,6 @@ if __name__ == '__main__':
 
     # RUN SERVER
     log.p('STREAM SERVER UP AND RUNNING!')
-    #run(host='localhost', port=8080, server='paste')
-    run(host='innonuc.informatik.tu-chemnitz.de', port=8080, server='paste')
+    run(host='localhost', port=8080, server='paste')
+    #run(host='innonuc.informatik.tu-chemnitz.de', port=8080, server='paste')
 
