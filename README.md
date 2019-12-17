@@ -134,7 +134,7 @@ Save the contents and close the editor. The startup script in this repository ne
 sudo chmod +x startup.sh 
 ```
 
-Additionally, we need to automatically log in on startup. We can achieve that by altering <i>custom.cponf<i> with:
+Additionally, we need to automatically log in on startup. We can achieve that by altering <i>custom.conf</i> with:
 
 ```
 sudo nano /etc/gdm3/custom.conf
