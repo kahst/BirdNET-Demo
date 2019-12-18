@@ -182,6 +182,6 @@ python server.py
 Launch Chromium browser in kiosk mode with auto play enabled and navigate to the demo website to view audio and analysis data:
 
 ```
-chromium-browser --kiosk --autoplay-policy=no-user-gesture-required --incognito --app=http://localhost:8080
+chromium-browser --kiosk --autoplay-policy=no-user-gesture-required --incognito --password-store=basic --app=http://localhost:8080
 ```
 
