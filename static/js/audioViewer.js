@@ -89,14 +89,14 @@ function AudioViewer(canvas, aud, fftsize, bufsize, hsize) {
         if (!isplaying) {
 
             // Stop requesting analysis
-            //pauseRequests();
+            pauseRequests();
 
             // Cancel drawing
-            //return;
+            return;
         }
 
         // Resume analysis requests
-        //resumeRequests();
+        resumeRequests();
 
         //clear spectrum area
         sg_ctx.clearRect(hsize, 0, 0, canvas.height);
