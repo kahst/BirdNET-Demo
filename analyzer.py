@@ -107,7 +107,8 @@ def loadModel(model_file, config_file):
 def getSpeciesList():
 
     # Add selected species to white list
-    cfg['WHITE_LIST'] = ['Sturnus vulgaris_European Starling',
+    cfg['WHITE_LIST'] = [# Species that have a sound file
+                         'Sturnus vulgaris_European Starling',
                          'Delichon urbicum_Common House-Martin',
                          'Linaria cannabina_Eurasian Linnet',
                          'Ficedula hypoleuca_European Pied Flycatcher',
@@ -115,7 +116,14 @@ def getSpeciesList():
                          'Emberiza citrinella_Yellowhammer',
                          'Cyanistes caeruleus_Eurasian Blue Tit',
                          'Phylloscopus collybita_Common Chiffchaff',
-                         'Carduelis carduelis_European Goldfinch'
+                         'Carduelis carduelis_European Goldfinch',
+                         # Additional species
+                         'Parus major_Great Tit',
+                         'Passer domesticus_House Sparrow',
+                         'Erithacus rubecula_European Robin',
+                         'Phoenicurus ochruros_Black Redstart',
+                         'Fringilla coelebs_Common Chaffinch',
+                         'Turdus merula_Eurasian Blackbird'
                         ]
 
 def getInput(sig):
@@ -227,11 +235,11 @@ def save(p):
     # Time in UTC
     utc = time.strftime('%H:%M:%S', time.localtime(p['timestamp']))
     
-    # Log
-    log.p((utc, int((p['time_for_prediction']) * 1000) / 1000.0), new_line=False)
+    # Log    
     for detection in p['detections']:
+        log.p((utc, int((p['time_for_prediction']) * 1000) / 1000.0), new_line=False)
         log.p((detection['species'], detection['score']), new_line=False)
-    log.p('')
+        log.p('')
 
     # Save JSON response data
     data = {'prediction': {'0':{}}, 'time': p['time_for_prediction']}
