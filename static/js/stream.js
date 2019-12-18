@@ -54,7 +54,7 @@ function showFileAnalysis(analysis) {
             // Draw icon            
             var icon = new Image();
             icon.onload = function() {
-                ctx.drawImage(icon, canvasTRX - icon_size, canvasTRY + 5, icon_size, icon_size);
+                ctx.drawImage(icon, canvasTRX - icon_size, canvasTRY + (icon_size * 0.5), icon_size, icon_size);
             };
             icon.src = "static/img/" + analysis.prediction[0][k].species + ".jpg";
 
