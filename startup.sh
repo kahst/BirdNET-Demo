@@ -3,7 +3,7 @@ cd /home/birdnet/BirdNET-Demo/
 echo 'STARTING BirdNET ANALYZER...'
 python3 analyzer.py &> /tmp/birdnet_analyzer.log &
 echo 'STARTING BirdNET SERVER...'
-python server.py &> /tmp/birdnet_server.log &
+python server.py &
 echo 'WAITING FOR 5 SECONDS...'
 sleep 5
 echo 'STARTING CHROMIUM BROWSER...'
