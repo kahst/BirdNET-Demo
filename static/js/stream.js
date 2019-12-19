@@ -167,5 +167,7 @@ $( document ).ready(function() {
     // Fallback function to restart requests if anything goes wrong
     setInterval('restartRequests()', 2000);
 
+    // Set emergency reload to prevent freezes
+    setTimeout(function() {document.location.reload(true)}, 60 * 60 * 1000); 
     
 });
