@@ -20,7 +20,7 @@ function showFileAnalysis(analysis) {
     var canvasTRX = $('#spec').position().left + $('#spec').width();    
     var canvasTRY = 0; //$('#spec').position().top;
     var canvasHeight = $('#spec').height();
-    var icon_size = canvasHeight * 0.15;
+    var icon_size = canvasHeight * 0.25;
 
     console.log(canvasHeight, $('#spec').width());
 
@@ -47,7 +47,7 @@ function showFileAnalysis(analysis) {
 
             // Draw line
             ctx.strokeStyle = "#FFFFFF";
-            ctx.lineWidth = canvasHeight * 0.01;
+            ctx.lineWidth = canvasHeight * 0.015;
             ctx.beginPath(); 
             ctx.moveTo(canvasTRX - (icon_size * 0.5), canvasTRY + icon_size);
             ctx.lineTo(canvasTRX - (icon_size * 0.5), canvasTRY + icon_size + canvasHeight);
@@ -56,7 +56,7 @@ function showFileAnalysis(analysis) {
             // Draw icon            
             var icon = new Image();
             icon.onload = function() {
-                ctx.drawImage(icon, canvasTRX - icon_size, canvasTRY + (icon_size * 0.5), icon_size, icon_size);
+                ctx.drawImage(icon, canvasTRX - icon_size, canvasTRY + (icon_size * 0.1), icon_size, icon_size);
             };
             icon.src = "static/img/" + analysis.prediction[0][k].species + ".jpg";
 
