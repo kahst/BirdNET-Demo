@@ -54,7 +54,7 @@ config = {
 
     # Settings for spectrogram extraction
     'SPEC_LENGTH': 3.0,
-    'SPEC_OVERLAP': 2.0,
+    'SPEC_OVERLAP': 2.5,
     'SPEC_MINLEN': 1.0,
 
     # Model hyperperams
