@@ -1,8 +1,8 @@
-var request_interval = 1000;
+var request_interval = 500;
 var last_request = 0;
 var isPaused = false;
 var markerThreshold = 0.15;
-var markerTimeout = 1500;
+var markerTimeout = 1750;
 var markers = {};
 
 //////////////////////////  VISUALIZATION  ////////////////////////////
@@ -21,6 +21,8 @@ function showFileAnalysis(analysis) {
     var canvasTRY = 0; //$('#spec').position().top;
     var canvasHeight = $('#spec').height();
     var icon_size = canvasHeight * 0.15;
+
+    console.log(canvasHeight, $('#spec').width());
 
     // Parse analysis and show marker
     var a_keys = Object.keys(analysis.prediction[0]);
@@ -147,19 +149,21 @@ function requestStreamAnalysis() {
 $( document ).ready(function() {
 
     // For now, we need to click the canvas in order to start the visualization
-    //$('#spec').click(function() {
-    console.log('Starting playback...');
-    var base_canvas = document.getElementById('spec');
-    var aud = document.getElementById('player');        
-    aud.play();
+    $('#spec').click(function() {
 
-    // Adjust canvas size
-    $("#spec").width($("#spec-holder").width());
-    $("#spec").height($( window ).height() * 0.4);
-    
-    // Start spectrogram viewer
-    var viewer = new AudioViewer(base_canvas, aud, 1024, 1024, $('#spec').width());
-    //});
+        // Adjust canvas size
+        $("#spec").width($("#spec-holder").width());
+        $("#spec").height($( window ).height() * 0.4);
+
+        // Start audio
+        console.log('Starting playback...');
+        var base_canvas = document.getElementById('spec');
+        var aud = document.getElementById('player');        
+        aud.play();        
+        
+        // Start spectrogram viewer
+        var viewer = new AudioViewer(base_canvas, aud, 1024, 1024, $('#spec').width(), $('#spec').height());
+    });
 
     // Request analysis results every second
     requestStreamAnalysis();
@@ -168,6 +172,14 @@ $( document ).ready(function() {
     setInterval('restartRequests()', 2000);
 
     // Set emergency reload to prevent freezes
-    setTimeout(function() {document.location.reload(true)}, 60 * 60 * 1000); 
+    setInterval(function() {
+
+        //document.location.reload(true)
+        var aud = document.getElementById('player');        
+        aud.pause();
+        aud.load();
+        aud.play(); 
+    
+    }, 30 * 60 * 1000); 
     
 });
