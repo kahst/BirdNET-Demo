@@ -1,9 +1,10 @@
 var request_interval = 500;
 var last_request = 0;
 var isPaused = false;
-var markerThreshold = 0.15;
+var markerThreshold = 0.1;
 var markerTimeout = 1750;
 var markers = {};
+var cardThreshold = 0.1;
 
 //////////////////////////  VISUALIZATION  ////////////////////////////
 function showFileAnalysis(analysis) {
@@ -22,11 +23,13 @@ function showFileAnalysis(analysis) {
     var canvasHeight = $('#spec').height();
     var icon_size = canvasHeight * 0.25;
 
-    console.log(canvasHeight, $('#spec').width());
+    // Hide current detection cards
+    $('#d1').addClass('d-none');
+    $('#d2').addClass('d-none');
 
     // Parse analysis and show marker
     var a_keys = Object.keys(analysis.prediction[0]);
-    //for (var i=0; i < a_keys.length; i++) {
+    var cnt = 1;
     for (var k in a_keys) {
 
         // Get score fo current prediction
@@ -43,7 +46,7 @@ function showFileAnalysis(analysis) {
         if (score >= markerThreshold && now - lastMarker >= markerTimeout) {
 
             // Log
-            console.log('Drawing marker for ' + analysis.prediction[0][k].species + ' with score ' + score);
+            //console.log('Drawing marker for ' + analysis.prediction[0][k].species + ' with score ' + score);
 
             // Draw line
             ctx.strokeStyle = "#FFFFFF";
@@ -64,6 +67,22 @@ function showFileAnalysis(analysis) {
             markers[analysis.prediction[0][k].species] = now;
 
         }
+
+        // Show detection card
+        if (score >= cardThreshold) {
+
+            var sname = analysis.prediction[0][k].species.split('_')[0]
+            var cname = analysis.prediction[0][k].species.split('_')[1]
+
+            $('#d' + cnt).removeClass('d-none');
+            $('#d' + cnt + "-header").html("<b>" + cname + "</b> (<i>" + sname + "</i>)");
+            $('#d' + cnt + "-img").attr('src', "static/img/" + analysis.prediction[0][k].species + ".jpg");
+            $('#d' + cnt + "-score").text("" + parseInt(score * 100) + "%");
+
+        }
+
+        cnt += 1;
+        if (cnt > 2) break;
 
     }
 

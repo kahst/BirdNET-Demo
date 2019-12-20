@@ -26,7 +26,7 @@
     <div class="container-fluid bg-dark text-white">
         <div class="row p-2">
             <div class="col">
-                <h5>BirdNET</h5>
+                <h5>BirdNET - Vogelstimmen automatisch erkennen</h5>
             </div>
         </div>
     </div>
@@ -41,9 +41,43 @@
 
         <!-- Audio player -->
         <div class="row d-none">  
-            <!--audio controls id='player' preload='none' crossorigin='anonymous' id='audio_source_source' src='http://innonuc.informatik.tu-chemnitz.de:8080/stream'></audio-->
-            <audio controls id='player' preload='none' crossorigin='anonymous' id='audio_source_source' src='http://localhost:8080/stream'></audio>
+            <audio controls id='player' preload='none' crossorigin='anonymous' id='audio_source_source' src='http://innonuc.informatik.tu-chemnitz.de:8080/stream'></audio>
+            <!--audio controls id='player' preload='none' crossorigin='anonymous' id='audio_source_source' src='http://localhost:8080/stream'></audio-->
         </div>
+
+        <!-- Card row -->
+        <div class="row p-2 d-none" id="d1">
+            <div class="card w-100">
+                <div class="card-header bg-dark text-white" id="d1-header"></div>
+                <div class="row no-gutters p-1">
+                    <div class="col-sm-3 col-md-1">
+                        <img src="static/img/Cyanistes caeruleus_Eurasian Blue Tit.jpg" class="w-100 rounded" id="d1-img">
+                    </div>
+                    <div class="col-sm-9 col-md-11">
+                        <div class="card-body p-1 pl-4">
+                            Wahrscheinlichkeit:</br>
+                            <p class="card-text text-left display-3"  id="d1-score"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row p-2 d-none" id="d2">
+            <div class="card w-100">
+                <div class="card-header bg-dark text-white" id="d2-header"></div>
+                <div class="row no-gutters p-1">
+                    <div class="col-sm-3 col-md-1">
+                        <img src="static/img/Cyanistes caeruleus_Eurasian Blue Tit.jpg" class="w-100 rounded" id="d2-img">
+                    </div>
+                    <div class="col-sm-9 col-md-11">
+                        <div class="card-body p-1 pl-4">
+                            Wahrscheinlichkeit:</br>
+                            <p class="card-text text-left display-3" id="d2-score"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
         
     </div>
 
