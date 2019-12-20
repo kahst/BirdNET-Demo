@@ -220,7 +220,7 @@ def analyzeStream(interpreter):
     for entry in p:
 
         # Store detections with confidence above threshold
-        if entry[1] >= cfg['MIN_CONFIDENCE'] and p.index(entry) < 1:            
+        if entry[1] >= cfg['MIN_CONFIDENCE'] and p.index(entry) < 2:            
 
             # Save detection if it is a bird
             d.append({'species': entry[0], 'score': int(entry[1] * 100) / 100.0})
