@@ -65,7 +65,7 @@ config = {
     'CONFIG_PATH': os.path.join(BASE_PATH, 'model', 'BirdNET_1000_TF_ResNet_9000_config.json'),
     'SPECS_PER_PREDICTION': 1,
     'SENSITIVITY': -0.85,
-    'MIN_CONFIDENCE': 0.1,
+    'MIN_CONFIDENCE': 0.05,
     'DETECTION_COOLDOWN': 2.0,
     'MIN_DETECTION_COUNT': 2,
 
