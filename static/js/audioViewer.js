@@ -1,4 +1,4 @@
-function AudioViewer(canvas, aud, fftsize, bufsize, hsize) {
+function AudioViewer(canvas, aud, fftsize, bufsize, hsize, vsize) {
 
     var sourceNode;
     var analyzer;
@@ -8,7 +8,7 @@ function AudioViewer(canvas, aud, fftsize, bufsize, hsize) {
 
     // Prepare the canvas
     canvas.width = hsize;
-    canvas.height = fftsize / 2;
+    canvas.height = vsize; //fftsize / 2;
 
     // Get the context from the canvas to draw on
     var sg_ctx = canvas.getContext("2d");
@@ -18,6 +18,12 @@ function AudioViewer(canvas, aud, fftsize, bufsize, hsize) {
     var tempCtx = tempCanvas.getContext("2d");
     tempCanvas.width = canvas.width;
     tempCanvas.height = canvas.height;
+
+    // Create a temp canvas we use for drawing a fft frame
+    var fftCanvas = document.createElement("canvas");
+    var fftCtx = fftCanvas.getContext("2d");
+    fftCanvas.width = speed;
+    fftCanvas.height = fftsize / 2;
 
     // Create color maps used for color distribution
     var colormaps = new Object();
@@ -98,32 +104,35 @@ function AudioViewer(canvas, aud, fftsize, bufsize, hsize) {
         // Resume analysis requests
         resumeRequests();
 
-        //clear spectrum area
-        sg_ctx.clearRect(hsize, 0, 0, canvas.height);
-
-        // copy the current canvas onto the temp canvas
+        // Copy the current canvas onto the temp canvas
         tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
 
-        for (var i = 0; i < array.length; i++) {
+        // Clear spectrum area
+        sg_ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
-            // Draw each pixel with the specific color
-            sg_ctx.fillStyle = colormap.getColor(array[i]).hex();
-
-            // Draw the line at the right side of the canvas
-            sg_ctx.fillRect(hsize - speed, array.length - 1 - i, speed, 1);
-
-        }
         // Set translate on the canvas
         sg_ctx.translate(-speed, 0);
 
         // Draw the copied image
-        sg_ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+        sg_ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, canvas.width, canvas.height);
 
         // Reset the transformation matrix
-        sg_ctx.setTransform(1, 0, 0, 1, 0, 0);
+        sg_ctx.setTransform(1, 0, 0, 1, 0, 0);               
 
-        // Update detection marker
-        //updateDetectionMarker(speed);
+        // Draw spectrogram frame on fft canvas
+        for (var i = 0; i < array.length; i++) {
+
+            // Draw each pixel with the specific color
+            fftCtx.fillStyle = colormap.getColor(array[i]).hex();
+
+            // Draw the line at the right side of the canvas
+            fftCtx.fillRect(0, array.length - 1 - i, speed, 1);
+
+        }
+
+        // Draw fft canvas onto current canvas (incl. low frequency crop)
+        sg_ctx.drawImage(fftCanvas, canvas.width - fftCanvas.width, 0, fftCanvas.width, canvas.height + 0);
+
 
     }
 
