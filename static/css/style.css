@@ -1,3 +1,9 @@
+html {
+
+    zoom: 0.9;
+    cursor: none;
+}
+
 .border-10 {
     border-width:10px !important;
 }

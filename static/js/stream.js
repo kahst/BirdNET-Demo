@@ -7,6 +7,25 @@ var markers = {};
 var cardThreshold = 0.1;
 
 //////////////////////////  VISUALIZATION  ////////////////////////////
+var cnames = {
+
+    'European Starling': 'Star',
+    'Common House-Martin': 'Mehlschwalbe',
+    'Eurasian Linnet': 'Bluthänfling',
+    'European Pied Flycatcher': 'Trauerschnäpper',
+    'Goldcrest': 'Wintergoldhähnchen',
+    'Yellowhammer': 'Goldammer',
+    'Eurasian Blue Tit': 'Blaumeise',
+    'Common Chiffchaff': 'Zilpzalp',
+    'European Goldfinch': 'Stieglitz',
+    'Great Tit': 'Kohlmeise',
+    'House Sparrow': 'Hausperling',
+    'European Robin': 'Rotkelchen',
+    'Black Redstart': 'Hausrotschwanz',
+    'Common Chaffinch': 'Buchfink',
+    'Eurasian Blackbird': 'Amsel'
+}
+
 function showFileAnalysis(analysis) {
 
     // Get time
@@ -75,7 +94,7 @@ function showFileAnalysis(analysis) {
             var cname = analysis.prediction[0][k].species.split('_')[1]
 
             $('#d' + cnt).removeClass('d-none');
-            $('#d' + cnt + "-header").html("<b>" + cname + "</b> (<i>" + sname + "</i>)");
+            $('#d' + cnt + "-header").html("<b>" + cnames[cname] + "</b> (<i>" + sname + "</i>)");
             $('#d' + cnt + "-img").attr('src', "static/img/" + analysis.prediction[0][k].species + ".jpg");
             $('#d' + cnt + "-score").text("" + parseInt(score * 100) + "%");
 
