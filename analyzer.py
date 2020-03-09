@@ -118,12 +118,12 @@ def getSpeciesList():
                          'Phylloscopus collybita_Common Chiffchaff',
                          'Carduelis carduelis_European Goldfinch',
                          # Additional species
-                         'Parus major_Great Tit',
-                         'Passer domesticus_House Sparrow',
-                         'Erithacus rubecula_European Robin',
-                         'Phoenicurus ochruros_Black Redstart',
-                         'Fringilla coelebs_Common Chaffinch',
-                         'Turdus merula_Eurasian Blackbird'
+                         #'Parus major_Great Tit',
+                         #'Passer domesticus_House Sparrow',
+                         #'Erithacus rubecula_European Robin',
+                         #'Phoenicurus ochruros_Black Redstart',
+                         #'Fringilla coelebs_Common Chaffinch',
+                         #'Turdus merula_Eurasian Blackbird'
                         ]
 
 def getInput(sig):
