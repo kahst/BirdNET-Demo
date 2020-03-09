@@ -16,7 +16,7 @@ SOUNDS = {11: {'audio': ['CS_01.wav', 'CS_02.wav'], 'last_action': 0},
         }
 
 # Define random playback interval
-LAST_RANDOM_PLAYBACK = 0
+LAST_RANDOM_PLAYBACK = time.time()
 
 # Ignore warning for now
 GPIO.setwarnings(False) 
