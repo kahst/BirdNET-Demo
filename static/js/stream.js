@@ -212,12 +212,12 @@ $( document ).ready(function() {
     // Set emergency reload to prevent freezes
     setInterval(function() {
 
-        //document.location.reload(true)
-        var aud = document.getElementById('player');        
-        aud.pause();
-        aud.load();
-        aud.play(); 
+        document.location.reload(true)
+        //var aud = document.getElementById('player');        
+        //aud.pause();
+        //aud.load();
+        //aud.play(); 
     
-    }, 30 * 60 * 1000); 
+    }, 60 * 60 * 1000); 
     
 });
