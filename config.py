@@ -61,8 +61,8 @@ config = {
     'INPUT_TYPE': 'spec',
 
     # Soundscape analysis
-    'MODEL_PATH': os.path.join(BASE_PATH, 'model', 'BirdNET_1000_TF_ResNet_9000_model.tflite'),
-    'CONFIG_PATH': os.path.join(BASE_PATH, 'model', 'BirdNET_1000_TF_ResNet_9000_config.json'),
+    'MODEL_PATH': os.path.join(BASE_PATH, 'model', 'BirdNET_1000_TF_ResNet_50K_model.tflite'),
+    'CONFIG_PATH': os.path.join(BASE_PATH, 'model', 'BirdNET_1000_TF_ResNet_50K_config.json'),
     'SPECS_PER_PREDICTION': 1,
     'SENSITIVITY': -0.85,
     'MIN_CONFIDENCE': 0.05,
