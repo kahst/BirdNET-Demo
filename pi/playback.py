@@ -15,6 +15,9 @@ SOUNDS = {11: {'audio': ['CS_01.wav', 'CS_02.wav'], 'last_action': 0},
           22: {'audio': [], 'last_action': 0}
         }
 
+# Define random playback interval
+LAST_RANDOM_PLAYBACK = 0
+
 # Ignore warning for now
 GPIO.setwarnings(False) 
 
@@ -35,6 +38,23 @@ def playSound(path):
     print('PLAYING:', path)
     os.system('aplay ' + path)
 
+# Choose random sound to play
+def playRandomSound():
+
+    global LAST_RANDOM_PLAYBACK
+
+    # Time
+    now = time.time()
+
+    # Check if recent button action
+    for c in SOUNDS:
+        if now - SOUNDS[c]['last_action'] < 20:
+            return None
+
+    # Check for last random playback
+    if not now - LAST_RANDOM_PLAYBACK < 10:
+        button_callback(random.choice([11, 12, 13, 15, 16]))
+
 # Button callback
 def button_callback(channel):
 
@@ -44,7 +64,7 @@ def button_callback(channel):
     now = time.time()
 
     # Wait for timeout
-    if now - SOUNDS[channel]['last_action'] > 1:
+    if now - SOUNDS[channel]['last_action'] > 1.5:
         
         # Save time of last button press
         SOUNDS[channel]['last_action'] = now
@@ -69,6 +89,7 @@ GPIO.add_event_detect(22, GPIO.FALLING, callback=button_callback)
 while True:
     try:
         time.sleep(0.1)
+        playRandomSound()
     except KeyboardInterrupt:
         print('TERMINATED')
         break
